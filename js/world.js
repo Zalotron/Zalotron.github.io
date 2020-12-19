@@ -23,6 +23,7 @@ const listener = new THREE.AudioListener();
 camera.add(listener);
 
 const fbxLoader = new THREE.FBXLoader();
+//const fbxLoader = new THREE.GLTFLoader();
 const fontLoader = new THREE.FontLoader();
 
 let intersectObjects = []
