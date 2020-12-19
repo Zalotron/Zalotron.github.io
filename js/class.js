@@ -134,7 +134,7 @@ class Frame {
 			defaults: {
 				duration: 0.5,
 			},
-			onComplete: () => {
+			onStart: () => {
 				this.particles = new MeshParticle(this.emitter, {
 					mode: false,
 					particles: 0.1,
@@ -144,6 +144,8 @@ class Frame {
 					alpha: [this.tex0, this.tex1],
 					map: true
 				})
+			},
+			onComplete: () => {
 				this.particles.geometry.vertices = vector3add(
 					float32toVector3(this.emitter.geometry.attributes.position.array),
 					float32toVector3(this.emitter.geometry.attributes.morphTarget0.array),
