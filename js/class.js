@@ -19,8 +19,7 @@ class Frame {
 		this.position = position
 
 		// ----- SCREEN ----- //
-		//fbxLoader.load("meshes/screen16-9.fbx", object => {
-		fbxLoader.load("meshes/jkl.fbx", object => {
+		fbxLoader.load("meshes/screen16-9.fbx", object => {
 			this.screen = new THREE.Mesh(object.children[0].geometry, new THREE.MeshLambertMaterial({
 				morphTargets: true,
 				transparent: true,
