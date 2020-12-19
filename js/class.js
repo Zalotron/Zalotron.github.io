@@ -19,7 +19,7 @@ class Frame {
 		this.position = position
 
 		// ----- SCREEN ----- //
-		fbxLoader.load("meshes/screen16-9.txt", object => {
+		fbxLoader.load("meshes/screen16-9.fbx", object => {
 			this.screen = new THREE.Mesh(object.children[0].geometry, new THREE.MeshLambertMaterial({
 				morphTargets: true,
 				transparent: true,
@@ -37,7 +37,7 @@ class Frame {
 		});
 
 		// ----- PARTICLES ----- //
-		fbxLoader.load("meshes/frame16-9.txt", object => {
+		fbxLoader.load("meshes/frame16-9.fbx", object => {
 			let frameMaterial = new THREE.LineBasicMaterial({ color: 0xffbbbb, morphTargets: true })
 			this.frame = new THREE.Mesh(object.children[0].geometry, frameMaterial)
 			this.frame.position.set(this.position[0], this.position[1], this.position[2])
