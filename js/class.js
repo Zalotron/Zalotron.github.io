@@ -20,6 +20,7 @@
 			
 			// ----- SCREEN ----- //
 			fbxLoader.load("meshes/screen16-9.fbx", object => {
+				console.log("asdasdasdasdadsadasdadsadasdsadasdasdasdsa")
 				this.screen = new THREE.Mesh(object.children[0].geometry, new THREE.MeshLambertMaterial({
 					morphTargets: true,
 					transparent: true,
