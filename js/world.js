@@ -5,10 +5,11 @@ const height = window.innerHeight;
 let wm = 1
 let bgColor = 0x000000
 
-let renderer = new THREE.WebGLRenderer({antialias: true});
+let renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setClearColor(bgColor);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+//renderer.setPixelRatio(2);
 
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);

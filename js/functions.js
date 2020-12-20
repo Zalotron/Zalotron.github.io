@@ -116,10 +116,8 @@ function updateWindow(){
 	composer.setSize(window.innerWidth, window.innerHeight)
 }
 
-function render(){
-	//pointLight.position.set(mouse.x*45.5, mouse.y*23+10, 20*wm);
-	//sphereLight.position.set(mouse.x*45.5, mouse.y*23+10, 20*wm)
-
+function render(){	
 	composer.render();
+	//renderer.render(scene, camera);
 	requestAnimationFrame(render);
 }

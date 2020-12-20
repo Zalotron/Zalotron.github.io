@@ -1,6 +1,6 @@
 // ----- COMPOSER ----- //
 	
-	const composer = new POSTPROCESSING.EffectComposer(renderer);
+	const composer = new POSTPROCESSING.EffectComposer(renderer, { multisampling: 4 });
 	composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
 	composer.setSize(window.innerWidth, window.innerHeight)
 
