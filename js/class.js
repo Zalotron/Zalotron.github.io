@@ -3,8 +3,10 @@
 class Frame {
 	constructor(
 		img,
+		title = "Title",
 		position = [0, 0, 0],
-		title = "Title"
+		rotation = [0, 0, 0],
+		parent = scene
 	)
 	// ----- CONSTRUCTOR -----//
 	{
@@ -16,7 +18,9 @@ class Frame {
 		let screenAlpha = new THREE.TextureLoader().load("img/screen alpha.jpg");
 
 		this.mode = false
+		this.parent = parent
 		this.position = position
+		this.rotation = rotation
 
 		// ----- SCREEN ----- //
 		fbxLoader.load("meshes/screen16-9.fbx", object => {
@@ -41,6 +45,7 @@ class Frame {
 			let frameMaterial = new THREE.LineBasicMaterial({ color: 0xffbbbb, morphTargets: true })
 			this.frame = new THREE.Mesh(object.children[0].geometry, frameMaterial)
 			this.frame.position.set(this.position[0], this.position[1], this.position[2])
+			this.frame.rotation.set(this.rotation[0], this.rotation[1], this.rotation[2])
 			this.frame.scale.set(1, 1, 1)
 			this.frame.morphTargetInfluences[0] = this.morphTarget
 
@@ -51,7 +56,7 @@ class Frame {
 			this.emitter.scale.set(1.01, 1, 1)
 			this.emitter.morphTargetInfluences[0] = this.morphTarget
 
-			scene.add(this.frame);
+			this.parent.add(this.frame);
 			this.frame.add(this.screen)
 			this.screen.add(this.emitter);
 
@@ -187,5 +192,44 @@ class Frame {
 			this.particles = undefined;
 			this.stop();
 		};
+	}
+}
+
+class Showcase {
+	constructor (
+		objects,
+		position,
+	) {
+		this.group = new THREE.Group();
+		this.group.position.set(0, 50, -530)
+		let maxX = (width / height > 1) ? 2 : 1;
+		let dX = (width / height > 1) ? 140 : 70;
+		let dZ = (width / height > 1) ? 15 : 0;
+		let rot = (width / height > 1) ? 0.2 : 0.1;
+		let countX = 0;
+		let countY = 0;
+
+		scene.add(this.group)
+
+		objects.forEach((element, index) => {
+			let object = new Frame(
+				element.img,
+				element.title,
+				[lerp(countX / maxX, -dX, dX), countY * -110, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500],
+				[0, lerp(countX / maxX, -rot, rot), 0],
+				this.group
+			);
+			countY = (countX >= maxX) ? countY + 1 : countY;
+			countX = (countX >= maxX) ? 0 : countX + 1;
+		});
+		window.scrollTo(lerp(0.5, 0, document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth), 0)
+		window.addEventListener("scroll", (event) => this.onMove(event))
+	};
+
+	onMove(event) {
+		let scrollX = event.path[1].scrollX;
+		let scrollElement = event.target.scrollingElement
+		let percent = normalize(scrollX, 0, scrollElement.scrollWidth - scrollElement.clientWidth)
+		if (this.group) this.group.rotation.set(0, lerp(percent, 0.15, -0.15), 0);
 	}
 }

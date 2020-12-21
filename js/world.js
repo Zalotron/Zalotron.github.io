@@ -1,18 +1,20 @@
+history.scrollRestoration = 'manual';
+
 const Inflate = Zlib.Inflate
 
 const width = window.innerWidth;
 const height = window.innerHeight;
-let wm = 1
-let bgColor = 0x000000
+const wm = 1
+const bgColor = 0x000000
 
-let renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 renderer.setClearColor(bgColor);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 //renderer.setPixelRatio(2);
 
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width/height, 0.1, 1000);
 // let controls = new THREE.OrbitControls(camera, renderer.domElement);
 camera.position.set(0, 0, 100 * wm)
 // controls.update();
@@ -24,7 +26,6 @@ const listener = new THREE.AudioListener();
 camera.add(listener);
 
 const fbxLoader = new THREE.FBXLoader();
-//const fbxLoader = new THREE.GLTFLoader();
 const fontLoader = new THREE.FontLoader();
 
-let intersectObjects = []
+var intersectObjects = []
