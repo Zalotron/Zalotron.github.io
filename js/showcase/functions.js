@@ -110,14 +110,18 @@ function onScroll(event) {
 }
 
 function updateWindow(){
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	camera.aspect = window.innerWidth/window.innerHeight;
+	width = window.innerWidth;
+	height = window.innerHeight;
+	renderer.setSize(width, height);
+	camera.aspect = width/height;
 	camera.updateProjectionMatrix();
-	composer.setSize(window.innerWidth, window.innerHeight)
+	composer.setSize(width, height)
+	camera.position.z = lerp(width/height/2, 500, 120)
 }
 
 function render(){	
 	composer.render();
 	//renderer.render(scene, camera);
+	rendererCss.render(sceneCss, camera);
 	requestAnimationFrame(render);
 }

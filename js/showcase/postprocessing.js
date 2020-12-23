@@ -19,27 +19,27 @@
 		maxBlur: 1
 	});
 	const bokehPass = new POSTPROCESSING.EffectPass(camera, bokehEffect);
-	composer.addPass(bokehPass);
+	//composer.addPass(bokehPass);
 
 // ----- OUTLINE ----- //
 
-	const outlineEffect = new POSTPROCESSING.OutlineEffect(scene, camera, {
-		blendFunction: POSTPROCESSING.BlendFunction.ADD,
-		visibleEdgeColor: "#ff0000",
-		hiddenEdgeColor: "#ff0000",
-		edgeStrength: 0.5,
-		resolutionScale: 0.5,
-		kernelSize: POSTPROCESSING.KernelSize.HUGE
-	});
-	const outlinePass = new POSTPROCESSING.EffectPass(camera, outlineEffect);
-	composer.addPass(outlinePass);
+	// const outlineEffect = new POSTPROCESSING.OutlineEffect(scene, camera, {
+	// 	blendFunction: POSTPROCESSING.BlendFunction.ADD,
+	// 	visibleEdgeColor: "#ff0000",
+	// 	hiddenEdgeColor: "#ff0000",
+	// 	edgeStrength: 0.5,
+	// 	resolutionScale: 0.5,
+	// 	kernelSize: POSTPROCESSING.KernelSize.HUGE
+	// });
+	// const outlinePass = new POSTPROCESSING.EffectPass(camera, outlineEffect);
+	// composer.addPass(outlinePass);
 
-	var geometry = new THREE.BoxGeometry(0, 0, 0);
-	var material = new THREE.MeshStandardMaterial({color: "#ffffff", depthWrite: false});
-	var selection = new THREE.Mesh(geometry, material);
-	selection.position.set(0, -5*wm, 0)
-	scene.add(selection);
-	outlineEffect.selectObject(selection)
+	// var geometry = new THREE.BoxGeometry(0, 0, 0);
+	// var material = new THREE.MeshStandardMaterial({color: "#ffffff", depthWrite: false});
+	// var selection = new THREE.Mesh(geometry, material);
+	// selection.position.set(0, -5*wm, 0)
+	// scene.add(selection);
+	// outlineEffect.selectObject(selection)
 
 // ----- BLOOM ----- //
 

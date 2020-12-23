@@ -6,7 +6,8 @@ class Frame {
 		title = "Title",
 		position = [0, 0, 0],
 		rotation = [0, 0, 0],
-		parent = scene
+		parent = scene,
+		parentCss = sceneCss
 	)
 	// ----- CONSTRUCTOR -----//
 	{
@@ -19,6 +20,7 @@ class Frame {
 
 		this.mode = false
 		this.parent = parent
+		this.parentCss = parentCss
 		this.position = position
 		this.rotation = rotation
 
@@ -35,7 +37,7 @@ class Frame {
 			this.screen.morphTargetInfluences[0] = this.morphTarget
 			this.screen.position.set(0, 0, -4)
 			this.screen.scale.set(0.99, 0.99, 0.99)
-
+			
 			this.screen.addEventListener('onEnter', () => this.onEnter());
 			this.screen.addEventListener('onLeave', () => this.onLeave());
 		});
@@ -54,12 +56,13 @@ class Frame {
 			this.emitter.material.opacity = 0.5
 			this.emitter.position.set(0, 0, 5)
 			this.emitter.scale.set(1.01, 1, 1)
-			this.emitter.morphTargetInfluences[0] = this.morphTarget
+			this.emitter.morphTargetInfluences[0] = this.morphTarget;			
 
 			this.parent.add(this.frame);
 			this.frame.add(this.screen)
 			this.screen.add(this.emitter);
 
+			// ----- PARTICLES ----- //
 			this.particles = new MeshParticle(this.emitter, {
 				mode: false,
 				particles: 0.1,
@@ -86,6 +89,7 @@ class Frame {
 		});
 
 		// ----- TEXT ----- //
+
 		fontLoader.load('fonts/helvetiker_bold.typeface.json', font => {
 			let textGeo = new THREE.TextBufferGeometry(title, {
 				font: font,
@@ -97,6 +101,7 @@ class Frame {
 			this.screen.add(this.text)
 		})
 	}
+	
 
 	start() {
 		gsap.timeline({
@@ -136,29 +141,29 @@ class Frame {
 
 	stop() {
 		gsap.timeline({
-			defaults: {
-				duration: 0.5,
-			},
-			onStart: () => {
-				this.particles = new MeshParticle(this.emitter, {
-					mode: false,
-					particles: 0.1,
-					velocity: [0, 0, 5],
-					size: 3,
-					color: 0xffffff,
-					alpha: [this.tex0, this.tex1],
-					map: true
-				})
-			},
-			onComplete: () => {
-				this.particles.geometry.vertices = vector3add(
-					float32toVector3(this.emitter.geometry.attributes.position.array),
-					float32toVector3(this.emitter.geometry.attributes.morphTarget0.array),
-					this.morphTarget
-				)
-				this.particles.start(this.emitter)
-			}
-		})
+				defaults: {
+					duration: 0.5,
+				},
+				onStart: () => {
+					this.particles = new MeshParticle(this.emitter, {
+						mode: false,
+						particles: 0.1,
+						velocity: [0, 0, 5],
+						size: 3,
+						color: 0xffffff,
+						alpha: [this.tex0, this.tex1],
+						map: true
+					})
+				},
+				onComplete: () => {
+					this.particles.geometry.vertices = vector3add(
+						float32toVector3(this.emitter.geometry.attributes.position.array),
+						float32toVector3(this.emitter.geometry.attributes.morphTarget0.array),
+						this.morphTarget
+					)
+					this.particles.start(this.emitter)
+				}
+			})
 			.to(this.frame.position, { z: this.position[2] }, 'start')
 			.to(this.frame.scale, { x: 1, y: 1, z: 1 }, 'start')
 			.to(this.frame.material.color, { r: 1, g: 0.73, b: 0.73 }, 'start')
@@ -198,33 +203,60 @@ class Frame {
 class Showcase {
 	constructor (
 		objects,
-		position,
+		position = [0, 50, -530]
 	) {
 		this.group = new THREE.Group();
-		this.group.position.set(0, 50, -530)
-		let maxX = (width / height > 1) ? 2 : 1;
-		let dX = (width / height > 1) ? 140 : 70;
-		let dZ = (width / height > 1) ? 15 : 0;
-		let rot = (width / height > 1) ? 0.2 : 0.1;
-		let countX = 0;
-		let countY = 0;
-
+		this.groupCss = new THREE.Group();
+		this.position = position
+		this.group.position.set(this.position[0], this.position[1], this.position[2])
+		this.objects = [];
 		scene.add(this.group)
+		sceneCss.add(this.groupCss)
 
-		objects.forEach((element, index) => {
+		objects.forEach((element) => {
 			let object = new Frame(
 				element.img,
 				element.title,
-				[lerp(countX / maxX, -dX, dX), countY * -110, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500],
-				[0, lerp(countX / maxX, -rot, rot), 0],
-				this.group
+				[0, 0, 0],
+				[0, 0, 0],
+				this.group,
+				this.groupCss
 			);
-			countY = (countX >= maxX) ? countY + 1 : countY;
-			countX = (countX >= maxX) ? 0 : countX + 1;
+			this.objects.push(object);
 		});
+
+		this.setPositions();
+
+		window.addEventListener("resize", (event) => this.setPositions(event))
 		window.scrollTo(lerp(0.5, 0, document.scrollingElement.scrollWidth - document.scrollingElement.clientWidth), 0)
 		window.addEventListener("scroll", (event) => this.onMove(event))
 	};
+
+	setPositions(event) {
+		let maxX = (window.innerWidth / window.innerHeight > 1) ? 2 : 1;
+		let dX = (window.innerWidth / window.innerHeight > 1) ? 140 : 75;
+		let dZ = (window.innerWidth / window.innerHeight > 1) ? 15 : 0;
+		let rot = (window.innerWidth / window.innerHeight > 1) ? 0.2 : 0.1;
+		let countX = 0;
+		let countY = 0;
+		if(this.objects[this.objects.length - 1] != undefined) {
+			if (this.objects[this.objects.length - 1].frame != undefined) {
+				this.objects.forEach((element) => {
+					element.position = [lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500];
+					element.frame.position.set(lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500);
+					element.frame.rotation.set(0, lerp(countX / maxX, -rot, rot), 0);
+					countY = (countX >= maxX) ? countY + 1 : countY;
+					countX = (countX >= maxX) ? 0 : countX + 1;
+				})
+			} else {
+				setTimeout(() => { this.setPositions(); }, 20);
+			}
+		} else {
+			setTimeout(() => { this.setPositions(); }, 20);
+		};
+		let posY = this.position[1] + lerp(window.innerWidth / window.innerHeight / 2, 200, 0);
+		this.group.position.set(this.position[0], posY, this.position[2])
+	}
 
 	onMove(event) {
 		let scrollX = event.path[1].scrollX;

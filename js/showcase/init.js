@@ -1,7 +1,8 @@
 updateWindow();
 render();
 
-document.body.insertBefore(renderer.domElement, document.body.firstChild);
+document.querySelector('#css').appendChild(rendererCss.domElement);
+document.querySelector('#webgl').appendChild(renderer.domElement);
 
 // ----- LISTENERS -----//
 
