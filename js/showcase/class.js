@@ -18,11 +18,12 @@ class Frame {
 		this.img = img;
 		let screenAlpha = new THREE.TextureLoader().load("img/screen alpha.jpg");
 
-		this.mode = false
-		this.parent = parent
-		this.parentCss = parentCss
-		this.position = position
-		this.rotation = rotation
+		this.mode = false;
+		this.parent = parent;
+		this.parentCss = parentCss;
+		this.position = position;
+		this.positionCss = position;
+		this.rotation = rotation;
 
 		// ----- SCREEN ----- //
 		fbxLoader.load("meshes/screen16-9.fbx", object => {
@@ -38,8 +39,6 @@ class Frame {
 			this.screen.position.set(0, 0, -4)
 			this.screen.scale.set(0.99, 0.99, 0.99)
 			
-			this.screen.addEventListener('onEnter', () => this.onEnter());
-			this.screen.addEventListener('onLeave', () => this.onLeave());
 		});
 
 		// ----- PARTICLES ----- //
@@ -58,9 +57,26 @@ class Frame {
 			this.emitter.scale.set(1.01, 1, 1)
 			this.emitter.morphTargetInfluences[0] = this.morphTarget;			
 
+			// ----- TEXT ----- //
 			this.parent.add(this.frame);
 			this.frame.add(this.screen)
 			this.screen.add(this.emitter);
+
+			let frameElement = document.createElement('div');
+			frameElement.setAttribute("class", "videoFrame")
+			frameElement.style.width = '120px';
+			frameElement.style.height = '67px';
+
+			this.domFrame = new THREE.CSS3DObject(frameElement);
+			this.parentCss.add(this.domFrame);
+
+			let textElement = document.createElement('div');
+			textElement.setAttribute("class", "videoTitle")
+			textElement.textContent = title
+
+			this.domText = new THREE.CSS3DObject(textElement);
+			this.domText.position.y = -42;
+			this.domFrame.add(this.domText);
 
 			// ----- PARTICLES ----- //
 			this.particles = new MeshParticle(this.emitter, {
@@ -86,20 +102,10 @@ class Frame {
 				}
 			}
 			testMorph();
+
+			frameElement.addEventListener('mouseenter', () => this.onEnter());
+			frameElement.addEventListener('mouseleave', () => this.onLeave());
 		});
-
-		// ----- TEXT ----- //
-
-		fontLoader.load('fonts/helvetiker_bold.typeface.json', font => {
-			let textGeo = new THREE.TextBufferGeometry(title, {
-				font: font,
-				size: 6,
-				height: 0
-			})
-			this.text = new THREE.Mesh(textGeo, new THREE.MeshLambertMaterial({ emissive: 0xffd0d0 }))
-			this.text.position.set(-60, -45, 0)
-			this.screen.add(this.text)
-		})
 	}
 	
 
@@ -135,7 +141,9 @@ class Frame {
 			.to(this.emitter.position, { z: 1 }, 'start')
 			.to(this.emitter.material, { opacity: 1 }, 'start')
 			.to(this.emitter.morphTargetInfluences, { 0: 0 }, 'start')
-			.to(this.text.material.emissive, { r: 1, g: 0.8274, b: 0.8274 }, 'start');
+
+			.to(this.domFrame.position, { z: this.positionCss[2] + 10 }, 'start')
+			.to(this.domText.position, { z: 3 }, 'start')
 
 	}
 
@@ -177,7 +185,9 @@ class Frame {
 			.to(this.emitter.position, { z: 5 }, 'start')
 			.to(this.emitter.material, { opacity: 0.5 }, 'start')
 			.to(this.emitter.morphTargetInfluences, { 0: this.morphTarget }, 'start')
-			.to(this.text.material.emissive, { r: 1, g: 0.8156, b: 0.8156 }, 'start');
+
+			.to(this.domFrame.position, { z: this.positionCss[2] }, 'start')
+			.to(this.domText.position, { z: 0 }, 'start')
 
 	}
 
@@ -205,10 +215,13 @@ class Showcase {
 		objects,
 		position = [0, 50, -530]
 	) {
+		this.position = position;
+
 		this.group = new THREE.Group();
-		this.groupCss = new THREE.Group();
-		this.position = position
 		this.group.position.set(this.position[0], this.position[1], this.position[2])
+		this.groupCss = new THREE.Group();
+		this.groupCss.position.set(this.position[0], this.position[1], this.position[2])
+		
 		this.objects = [];
 		scene.add(this.group)
 		sceneCss.add(this.groupCss)
@@ -244,7 +257,10 @@ class Showcase {
 				this.objects.forEach((element) => {
 					element.position = [lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500];
 					element.frame.position.set(lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500);
+					element.positionCss = [lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 495]
+					element.domFrame.position.set(element.positionCss[0], element.positionCss[1], element.positionCss[2])
 					element.frame.rotation.set(0, lerp(countX / maxX, -rot, rot), 0);
+					element.domFrame.rotation.set(0, lerp(countX / maxX, -rot, rot), 0);
 					countY = (countX >= maxX) ? countY + 1 : countY;
 					countX = (countX >= maxX) ? 0 : countX + 1;
 				})
@@ -256,6 +272,7 @@ class Showcase {
 		};
 		let posY = this.position[1] + lerp(window.innerWidth / window.innerHeight / 2, 200, 0);
 		this.group.position.set(this.position[0], posY, this.position[2])
+		this.groupCss.position.set(this.position[0], posY, this.position[2])
 	}
 
 	onMove(event) {
@@ -263,5 +280,6 @@ class Showcase {
 		let scrollElement = event.target.scrollingElement
 		let percent = normalize(scrollX, 0, scrollElement.scrollWidth - scrollElement.clientWidth)
 		if (this.group) this.group.rotation.set(0, lerp(percent, 0.15, -0.15), 0);
+		if (this.groupCss) this.groupCss.rotation.set(0, lerp(percent, 0.15, -0.15), 0);
 	}
 }

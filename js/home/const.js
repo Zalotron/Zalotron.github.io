@@ -1,0 +1,19 @@
+const Inflate = Zlib.Inflate;
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const rendererCss = new THREE.CSS3DRenderer();
+const scene = new THREE.Scene();
+const sceneCss = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+//const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const listener = new THREE.AudioListener();
+const lightProbe = new THREE.LightProbe();
+const fbxLoader = new THREE.FBXLoader();
+const fontLoader = new THREE.FontLoader();
+const CubeTextureLoader = new THREE.CubeTextureLoader();
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+const wm = 1
+const bgColor = 0x000000

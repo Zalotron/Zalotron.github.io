@@ -21,25 +21,15 @@
 	const bokehPass = new POSTPROCESSING.EffectPass(camera, bokehEffect);
 	//composer.addPass(bokehPass);
 
-// ----- OUTLINE ----- //
+// ----- BOKEH ----- //
 
-	// const outlineEffect = new POSTPROCESSING.OutlineEffect(scene, camera, {
-	// 	blendFunction: POSTPROCESSING.BlendFunction.ADD,
-	// 	visibleEdgeColor: "#ff0000",
-	// 	hiddenEdgeColor: "#ff0000",
-	// 	edgeStrength: 0.5,
-	// 	resolutionScale: 0.5,
-	// 	kernelSize: POSTPROCESSING.KernelSize.HUGE
-	// });
-	// const outlinePass = new POSTPROCESSING.EffectPass(camera, outlineEffect);
-	// composer.addPass(outlinePass);
-
-	// var geometry = new THREE.BoxGeometry(0, 0, 0);
-	// var material = new THREE.MeshStandardMaterial({color: "#ffffff", depthWrite: false});
-	// var selection = new THREE.Mesh(geometry, material);
-	// selection.position.set(0, -5*wm, 0)
-	// scene.add(selection);
-	// outlineEffect.selectObject(selection)
+		const dofEffect = new POSTPROCESSING.DepthOfFieldEffect(camera, {
+		focusDistance: 0.15,
+		focalLength: 0.1,
+		bokehScale: 1,
+	});
+	const dofPass = new POSTPROCESSING.EffectPass(camera, dofEffect);
+	composer.addPass(dofPass);
 
 // ----- BLOOM ----- //
 
