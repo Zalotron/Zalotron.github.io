@@ -76,7 +76,7 @@ class Logo {
 		this.logo.rotation.set(toRadian(this.options.rotation[0]), toRadian(this.options.rotation[1]), toRadian(this.options.rotation[2]));
 		scene.add(this.logo);
 
-		fbxLoader.load("meshes/logo/redUp.fbx", object => {
+		fbxLoader.load("meshes/logo/redUp.txt", object => {
 			this.redUp = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
@@ -94,7 +94,7 @@ class Logo {
 			this.redUp.addEventListener('onClick', () => this.onClick(this.redUp));
 		});
 
-		fbxLoader.load("meshes/logo/whiteUp.fbx", object => {
+		fbxLoader.load("meshes/logo/whiteUp.txt", object => {
 			this.whiteUp = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
@@ -111,7 +111,7 @@ class Logo {
 			this.whiteUp.addEventListener('onClick', () => this.onClick(this.whiteUp));
 		});
 
-		fbxLoader.load("meshes/logo/blackUp.fbx", object => {
+		fbxLoader.load("meshes/logo/blackUp.txt", object => {
 			this.blackUp = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
@@ -128,7 +128,7 @@ class Logo {
 			this.blackUp.addEventListener('onClick', () => this.onClick(this.blackUp));
 		});
 
-		fbxLoader.load("meshes/logo/redDown.fbx", object => {
+		fbxLoader.load("meshes/logo/redDown.txt", object => {
 			this.redDown = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
@@ -145,7 +145,7 @@ class Logo {
 			this.redDown.addEventListener('onClick', () => this.onClick(this.redDown));
 		});
 
-		fbxLoader.load("meshes/logo/whiteDown.fbx", object => {
+		fbxLoader.load("meshes/logo/whiteDown.txt", object => {
 			this.whiteDown = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
@@ -162,7 +162,7 @@ class Logo {
 			this.whiteDown.addEventListener('onClick', () => this.onClick(this.whiteDown));
 		});
 
-		fbxLoader.load("meshes/logo/blackDown.fbx", object => {
+		fbxLoader.load("meshes/logo/blackDown.txt", object => {
 			this.blackDown = new THREE.Mesh(object.children[0].geometry, [
 				new THREE.MeshPhysicalMaterial().copy(metalBg_mat),
 				new THREE.MeshPhysicalMaterial().copy(red_mat),
