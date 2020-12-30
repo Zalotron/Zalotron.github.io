@@ -29,7 +29,7 @@
 		bokehScale: 1,
 	});
 	const dofPass = new POSTPROCESSING.EffectPass(camera, dofEffect);
-	composer.addPass(dofPass);
+	//composer.addPass(dofPass);
 
 // ----- BLOOM ----- //
 

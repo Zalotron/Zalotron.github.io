@@ -212,8 +212,6 @@ class MovingBox {
 		this.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(this.options.x, this.options.y, this.options.z), new THREE.MeshStandardMaterial({
 			color: 0x000000,
 			roughness: 0.9,
-			//envMap: env_mat,
-			//envMapIntensity: 1,
 			emissive: 0xffffff,
 			emissiveMap: new THREE.TextureLoader().load("img/BoxLight.jpg"),
 			emissiveIntensity: 0
@@ -222,8 +220,6 @@ class MovingBox {
 		this.mesh.rotation.set(toRadian(this.options.rotation[0]),toRadian(this.options.rotation[1]),toRadian(this.options.rotation[2]));
 		this.options.parent.add(this.mesh);
 
-		this.moveTimeline = gsap.timeline();
-		this.lightTimeline = gsap.timeline();
 		this.move();
 		this.flick();
 
@@ -233,22 +229,20 @@ class MovingBox {
 
 	move() {
 		if (!this.mode) {
-			this.moveTimeline.to(this.mesh.position, {
-				//z: lerp(Math.random(), 0, 5),
-				z: 0,
+			gsap.to(this.mesh.position, {
+				z: lerp(Math.random(), 0, 5),
 				duration: lerp(Math.random(), 1, 2),
-				//onComplete: () => { this.move() }
+				onComplete: () => { this.move() }
 			});
 		}
 	};
 
 	flick() {
 		if (!this.mode) {
-			this.lightTimeline.to(this.mesh.material, {
-				//emissiveIntensity: lerp(Math.random(), 0, 0.1),
-				emissiveIntensity: 0,
+			gsap.to(this.mesh.material, {
+				emissiveIntensity: lerp(Math.random(), 0, 0.1),
 				duration: lerp(Math.random(), 1, 2),
-				//onComplete: () => { this.flick() }
+				onComplete: () => { this.flick() }
 			});
 		}
 	};
@@ -256,14 +250,13 @@ class MovingBox {
 	onEnter() {
 		if (!this.mode){
 			this.mode = true;
-			this.moveTimeline.clear()
-			this.lightTimeline.clear()
+			gsap.killTweensOf(this.mesh);
 
-			this.moveTimeline.to(this.mesh.position, {
+			gsap.to(this.mesh.position, {
 				z: 10,
 				duration: 0.1,
 			});
-			this.lightTimeline.to(this.mesh.material, {
+			gsap.to(this.mesh.material, {
 				emissiveIntensity: 1,
 				duration: 0.1,
 			})
@@ -272,8 +265,7 @@ class MovingBox {
 
 	onLeave() {
 		if (this.mode){
-			this.moveTimeline.clear()
-			this.lightTimeline.clear()
+			gsap.killTweensOf(this.mesh);
 
 			this.mode = false;
 			this.move();
