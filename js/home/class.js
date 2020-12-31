@@ -40,9 +40,11 @@ class Logo {
 			emissiveIntensity: 0
 		})
 		let border_mat = new THREE.MeshPhysicalMaterial({
-			map: new THREE.TextureLoader().load("meshes/logo/textures/Border_BaseColor.jpg"),
-			roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Roughness.jpg"),
-			normalMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Normal.jpg"),
+			color: 0xffffff,
+			roughness: 0.8,
+			//map: new THREE.TextureLoader().load("meshes/logo/textures/Border_BaseColor.jpg"),
+			//roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Roughness.jpg"),
+			//normalMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Normal.jpg"),
 			reflectivity: 2,
 			envMap: env_mat,
 			envMapIntensity: 2,
