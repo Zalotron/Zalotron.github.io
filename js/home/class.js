@@ -250,7 +250,8 @@ class MovingBox {
 	onEnter() {
 		if (!this.mode){
 			this.mode = true;
-			gsap.killTweensOf(this.mesh);
+			gsap.killTweensOf(this.mesh.position, "z");
+			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
 
 			gsap.to(this.mesh.position, {
 				z: 10,
@@ -265,7 +266,8 @@ class MovingBox {
 
 	onLeave() {
 		if (this.mode){
-			gsap.killTweensOf(this.mesh);
+			gsap.killTweensOf(this.mesh.position, "z");
+			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
 
 			this.mode = false;
 			this.move();
