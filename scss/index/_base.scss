@@ -28,7 +28,20 @@ body {
   margin-right: 20px;
   text-decoration: none;
   color:white;
+  display: flex;
   opacity: 0.5;
+}
+
+.fab p {
+  width: 0ch;
+  display: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  padding-left: 0px;
+  margin: auto;
+  text-decoration: none;
+  color:white;
+  opacity: 1;
 }
 
 #copyright {
@@ -37,6 +50,7 @@ body {
   right: 0;
   padding: $padding;
   font-size: 1.5rem;
+  opacity: 0.5;
 }
 
 #slogan {
@@ -47,6 +61,7 @@ body {
   font-size: 3rem;
   text-align: right;
   font-weight: 700;
+  opacity: 0.5;
 }
 
 #css, #webgl {

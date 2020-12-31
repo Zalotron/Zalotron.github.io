@@ -39,6 +39,8 @@ function updateWindow(){
 	camera.aspect = width/height;
 	camera.updateProjectionMatrix();
 	composer.setSize(width, height)
+	camera.position.z = lerp(width / height / 2, 175, 100)
+	camera.position.y = lerp(width / height / 2, -50, 0)
 }
 
 function render(){	
