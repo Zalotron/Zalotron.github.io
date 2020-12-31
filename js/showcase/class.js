@@ -142,8 +142,10 @@ class Frame {
 			.to(this.emitter.material, { opacity: 1 }, 'start')
 			.to(this.emitter.morphTargetInfluences, { 0: 0 }, 'start')
 
-			.to(this.domFrame.position, { z: this.positionCss[2] + 10 }, 'start')
+			.to(this.domFrame.position, { z: this.positionCss[2] + 13 }, 'start')
+			.to(this.domFrame.element, { boxShadow: "0px 0px 4px #ff0000" }, 'start')
 			.to(this.domText.position, { z: 3 }, 'start')
+			.to(this.domText.element, { textShadow: "0px 0px 4px #ff0000, 0px 0px 12px #ff0000" }, 'start')
 
 	}
 
@@ -187,7 +189,9 @@ class Frame {
 			.to(this.emitter.morphTargetInfluences, { 0: this.morphTarget }, 'start')
 
 			.to(this.domFrame.position, { z: this.positionCss[2] }, 'start')
+			.to(this.domFrame.element, { boxShadow: "0px 0px 0px #ff0000" }, 'start')
 			.to(this.domText.position, { z: 0 }, 'start')
+			.to(this.domText.element, { textShadow: "0px 0px 1px #ffaaaa, 0px 0px 3px #ff0000" }, 'start')
 
 	}
 
@@ -258,7 +262,7 @@ class Showcase {
 					element.position = [lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500];
 					element.frame.position.set(lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 500);
 					element.positionCss = [lerp(countX / maxX, -dX, dX), countY * -100, Math.abs(lerp(countX / maxX, -dZ, dZ)) * -1 + 495]
-					element.domFrame.position.set(element.positionCss[0], element.positionCss[1], element.positionCss[2])
+					element.domFrame.position.set(element.positionCss[0]+0.1, element.positionCss[1]-0.65, element.positionCss[2])
 					element.frame.rotation.set(0, lerp(countX / maxX, -rot, rot), 0);
 					element.domFrame.rotation.set(0, lerp(countX / maxX, -rot, rot), 0);
 					countY = (countX >= maxX) ? countY + 1 : countY;
