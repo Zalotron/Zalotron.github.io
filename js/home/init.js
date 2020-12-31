@@ -8,6 +8,6 @@ document.body.insertBefore(renderer.domElement, document.querySelector('#webgl')
 // ----- LISTENERS -----//
 
 	window.addEventListener('mousemove', onMouseMove);
-	window.addEventListener('click', onMouseClick);
-	window.addEventListener('resize', updateWindow);
+	window.addEventListener('click', onMouseClick, true);
+	window.addEventListener('resize', updateWindow, true);
 

@@ -25,7 +25,6 @@ function onMouseMove(event) {
 }
 
 function onMouseClick(event) {
-	event.preventDefault();
 	const intersects = raycaster.intersectObjects(scene.children, true);
 	for ( var i = 0; i < intersects.length; i ++ ){
 		intersects[i].object.dispatchEvent({type: 'onClick'})
