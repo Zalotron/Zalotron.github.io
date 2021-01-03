@@ -1,5 +1,3 @@
-// ----- FRAME -----//
-
 class Logo {
 	constructor(
 		options
@@ -42,9 +40,6 @@ class Logo {
 		let border_mat = new THREE.MeshPhysicalMaterial({
 			color: 0xffffff,
 			roughness: 0.8,
-			//map: new THREE.TextureLoader().load("meshes/logo/textures/Border_BaseColor.jpg"),
-			//roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Roughness.jpg"),
-			//normalMap: new THREE.TextureLoader().load("meshes/logo/textures/Border_Normal.jpg"),
 			reflectivity: 2,
 			envMap: env_mat,
 			envMapIntensity: 2,
@@ -278,6 +273,111 @@ class MovingBox {
 	}
 }
 
+class MovingGeometry {
+	constructor(
+		geometry,
+		options
+	) {
+		// ----- DEFAULTS ----- //
+		let defaults = {
+			position: [0, 0, 0],
+			rotation: [0, 0, 0],
+			size: [1, 1, 1],
+			parent: scene
+		};
+		this.options = defaults
+
+		if (options != undefined) {
+			Object.keys(options).forEach(element => {
+				this.options[element] = options[element]
+			});
+		};
+
+		if (geometry == undefined) {
+			console.log("Must provide a geometry")
+			return
+		}
+
+		let mat1 = new THREE.MeshStandardMaterial({
+			roughness: 0.1,
+			metalness: 1,
+			envMap: env_mat,
+			envMapIntensity: 0.25,
+			emissive: 0x440000,
+			emissiveIntensity: 0,
+			color: 0x000000
+		});
+
+		let mat2 = new THREE.MeshStandardMaterial({
+			color: 0x000000,
+			roughness: 0.9,
+			emissive: 0xff0000,
+			emissiveIntensity: 0
+		});
+
+		this.mesh = new THREE.Mesh(geometry, [mat1, mat2]);
+		this.mesh.position.set(this.options.position[0], this.options.position[1], this.options.position[2]);
+		this.mesh.rotation.set(toRadian(this.options.rotation[0]), toRadian(this.options.rotation[1]), toRadian(this.options.rotation[2]));
+		this.mesh.scale.set(this.options.size[0], this.options.size[1], this.options.size[2]);
+		this.options.parent.add(this.mesh);
+
+		this.move();
+		this.flick();
+
+		this.mesh.addEventListener('onEnter', () => this.onEnter());
+		this.mesh.addEventListener('onLeave', () => this.onLeave());
+	}
+
+	move() {
+		if (!this.mode) {
+			gsap.to(this.mesh.position, {
+				z: lerp(Math.random(), 0, 5),
+				duration: lerp(Math.random(), 1, 2),
+				onComplete: () => { this.move() }
+			});
+		}
+	};
+
+	flick() {
+		if (!this.mode) {
+			gsap.to(this.mesh.material, {
+				emissiveIntensity: lerp(Math.random(), 0, 0.1),
+				duration: lerp(Math.random(), 1, 2),
+				onComplete: () => { this.flick() }
+			});
+		}
+	};
+
+	onEnter() {
+		if (!this.mode) {
+			this.mode = true;
+			gsap.killTweensOf(this.mesh.position, "z");
+			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
+
+			gsap.to(this.mesh.position, {
+				z: 10,
+				duration: 0.1,
+			});
+			gsap.to(this.mesh.material, {
+				emissiveIntensity: 1,
+				duration: 0.1,
+			})
+		}
+	};
+
+	onLeave() {
+		if (this.mode) {
+			gsap.killTweensOf(this.mesh.position, "z");
+			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
+
+			this.mode = false;
+			this.move();
+			this.flick();
+		}
+	}
+}
+
+
 class MeshPattern {
 	constructor(
 		options
@@ -288,12 +388,11 @@ class MeshPattern {
 			rotation: [0, 0, 0],
 			x: 10,
 			y: 10,
-			xSize: 10,
-			ySize: 10,
 			xDistance: 0,
 			yDistance: 0,
-			offset: 13.8,
-			meshRotation: 45
+			offset: 0,
+			meshRotation: 0,
+			meshSize: 1
 		};
 		this.options = defaults
 
@@ -309,22 +408,26 @@ class MeshPattern {
 		this.group.rotation.set(toRadian(this.options.rotation[0]), toRadian(this.options.rotation[1]), toRadian(this.options.rotation[2]));
 		scene.add(this.group);
 
-		// ----- PATTERN ----- //
-		for (let indexY = 0; indexY < this.options.y; indexY++) {			
-			for (let indexX = 0; indexX < this.options.x; indexX++){
-				let pair = (Number.isInteger(indexY / 2)) ? 0: 1;
-				let mesh = new MovingBox({
-					parent: this.group,
-					position: [
-						lerp(indexX / this.options.x, (this.options.xSize + this.options.xDistance) * this.options.x / 2 * -1, this.options.xSize * this.options.x / 2) + lerp(pair, 0, this.options.offset),
-						lerp(indexY / this.options.y, (this.options.ySize + this.options.yDistance) * this.options.y / 2 * -1, this.options.ySize * this.options.y / 2),
-						lerp(Math.random(), 0, 5)
-					],
-					rotation: [0, 0, this.options.meshRotation],
-					x: this.options.xSize,
-					y: this.options.ySize
-				})				
+		fbxLoader.load("meshes/triangle.txt", object => {
+			this.geometry = object.children[0].geometry
+
+			// ----- PATTERN ----- //
+			for (let indexY = 0; indexY < this.options.y; indexY++) {
+				for (let indexX = 0; indexX < this.options.x; indexX++) {
+					let pairX = (Number.isInteger(indexX / 2)) ? 0 : 1;
+					let pairY = (Number.isInteger(indexY / 2)) ? 0 : 1;
+					let mesh = new MovingGeometry(this.geometry, {
+						parent: this.group,
+						position: [
+							lerp(indexX / this.options.x, this.options.xDistance * this.options.x / 2 * -1, this.options.xDistance * this.options.x / 2) + lerp(pairY, 0, this.options.offset),
+							lerp(indexY / this.options.y, this.options.yDistance * this.options.y / 2 * -1, this.options.yDistance * this.options.y / 2),
+							lerp(Math.random(), 0, 5)
+						],
+						rotation: [0, 0, pairX ? this.options.meshRotation + 180 : this.options.meshRotation],
+						size: [this.options.meshSize, this.options.meshSize, this.options.meshSize]
+					})
+				}
 			}			
-		}
+		});
 	}
 }

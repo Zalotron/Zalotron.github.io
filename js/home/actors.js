@@ -10,14 +10,11 @@ scene.add(mouseLight)
 const LOGO = new Logo()
 
 const PATTERN = new MeshPattern({
-	position: [54, -100, -100],
-	rotation: [0, 0, -13],
-	x: 32,
-	y: 34,
-	xSize: 20,
-	ySize: 20,
-	xDistance: 15,
-	yDistance: -10.5,
-	meshRotation: 45,
-	offset: 13.7,
+	position: [0, 10, -100],
+	x: 50,
+	y: 15,
+	xDistance: 13.5,
+	yDistance: 22.5,
+	offset: 12.5,
+	meshSize: 0.75
 })
