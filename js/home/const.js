@@ -1,8 +1,8 @@
 const Inflate = Zlib.Inflate;
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-const rendererCss = new THREE.CSS3DRenderer();
+//const rendererCss = new THREE.CSS3DRenderer();
 const scene = new THREE.Scene();
-const sceneCss = new THREE.Scene();
+//const sceneCss = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 //const controls = new THREE.OrbitControls(camera, renderer.domElement);
 const raycaster = new THREE.Raycaster();

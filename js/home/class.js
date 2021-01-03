@@ -308,7 +308,7 @@ class MovingGeometry {
 			color: 0x000000
 		});
 
-		let mat2 = new THREE.MeshStandardMaterial({
+		let mat2 = new THREE.MeshLambertMaterial({
 			color: 0x000000,
 			roughness: 0.9,
 			emissive: 0xff0000,

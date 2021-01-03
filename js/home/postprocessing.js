@@ -1,13 +1,13 @@
 // ----- COMPOSER ----- //
 	
-	const composer = new POSTPROCESSING.EffectComposer(renderer, { multisampling: 4 });
+	const composer = new POSTPROCESSING.EffectComposer(renderer);
 	composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
 	composer.setSize(window.innerWidth, window.innerHeight)
 
 // ----- RENDER PASS ----- //
 
 	const renderPass = new POSTPROCESSING.RenderPass(scene, camera);
-	composer.addPass(renderPass);
+	//composer.addPass(renderPass);
 
 // ----- BOKEH ----- //
 

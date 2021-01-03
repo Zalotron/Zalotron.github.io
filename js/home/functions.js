@@ -35,7 +35,7 @@ function updateWindow(){
 	width = window.innerWidth;
 	height = window.innerHeight;
 	renderer.setSize(width, height);
-	rendererCss.setSize(width, height);
+	//rendererCss.setSize(width, height);
 	camera.aspect = width/height;
 	camera.updateProjectionMatrix();
 	composer.setSize(width, height)
@@ -46,6 +46,6 @@ function updateWindow(){
 function render(){	
 	composer.render();
 	//renderer.render(scene, camera);
-	rendererCss.render(sceneCss, camera);
+	//rendererCss.render(sceneCss, camera);
 	requestAnimationFrame(render);
 }
