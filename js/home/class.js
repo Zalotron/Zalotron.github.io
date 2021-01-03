@@ -16,9 +16,9 @@ class Logo {
 		}
 	// ----- MATERIALS ----- // new THREE.TextureLoader().load("img/0.jpg");
 		let metalBg_mat = new THREE.MeshPhysicalMaterial({
-			map: new THREE.TextureLoader().load("meshes/logo/textures/BlackBG_BaseColor.jpg"),
-			roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/BlackBG_Roughness.jpg"),
-			normalMap: new THREE.TextureLoader().load("meshes/logo/textures/BlackBG_Normal.jpg"),
+			map: textureLoader.load("meshes/logo/textures/BlackBG_BaseColor.jpg"),
+			roughnessMap: textureLoader.load("meshes/logo/textures/BlackBG_Roughness.jpg"),
+			normalMap: textureLoader.load("meshes/logo/textures/BlackBG_Normal.jpg"),
 			reflectivity: 1,
 			envMap: env_mat,
 			envMapIntensity: 1,
@@ -27,9 +27,9 @@ class Logo {
 		})
 		let red_mat = new THREE.MeshPhysicalMaterial({
 			color: 0xff0000,
-			map: new THREE.TextureLoader().load("meshes/logo/textures/Red_BaseColor.jpg"),
-			roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/Red_Roughness.jpg"),
-			normalMap: new THREE.TextureLoader().load("meshes/logo/textures/Red_Normal.jpg"),
+			map: textureLoader.load("meshes/logo/textures/Red_BaseColor.jpg"),
+			roughnessMap: textureLoader.load("meshes/logo/textures/Red_Roughness.jpg"),
+			normalMap: textureLoader.load("meshes/logo/textures/Red_Normal.jpg"),
 			reflectivity: 1,
 			metalness: 0.5,
 			envMap: env_mat,
@@ -47,9 +47,9 @@ class Logo {
 			emissiveIntensity: 0
 		})
 		let white_mat = new THREE.MeshPhysicalMaterial({
-			map: new THREE.TextureLoader().load("meshes/logo/textures/White_BaseColor.jpg"),
-			roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/White_Roughness.jpg"),
-			normalMap: new THREE.TextureLoader().load("meshes/logo/textures/White_Normal.jpg"),
+			map: textureLoader.load("meshes/logo/textures/White_BaseColor.jpg"),
+			roughnessMap: textureLoader.load("meshes/logo/textures/White_Roughness.jpg"),
+			normalMap: textureLoader.load("meshes/logo/textures/White_Normal.jpg"),
 			reflectivity: 1,
 			envMap: env_mat,
 			envMapIntensity: 1,
@@ -57,9 +57,9 @@ class Logo {
 			emissiveIntensity: 0
 		})
 		let black_mat = new THREE.MeshPhysicalMaterial({
-			map: new THREE.TextureLoader().load("meshes/logo/textures/Black_BaseColor.jpg"),
-			roughnessMap: new THREE.TextureLoader().load("meshes/logo/textures/Black_Roughness.jpg"),
-			normalMap: new THREE.TextureLoader().load("meshes/logo/textures/Black_Normal.jpg"),
+			map: textureLoader.load("meshes/logo/textures/Black_BaseColor.jpg"),
+			roughnessMap: textureLoader.load("meshes/logo/textures/Black_Roughness.jpg"),
+			normalMap: textureLoader.load("meshes/logo/textures/Black_Normal.jpg"),
 			reflectivity: 1,
 			envMap: env_mat,
 			envMapIntensity: 1,

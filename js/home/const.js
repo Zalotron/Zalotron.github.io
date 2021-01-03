@@ -10,6 +10,7 @@ const mouse = new THREE.Vector2();
 const listener = new THREE.AudioListener();
 const lightProbe = new THREE.LightProbe();
 const loadingManager = new THREE.LoadingManager();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 const fbxLoader = new THREE.FBXLoader(loadingManager);
 const fontLoader = new THREE.FontLoader(loadingManager);
 const CubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
