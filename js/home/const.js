@@ -9,9 +9,10 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const listener = new THREE.AudioListener();
 const lightProbe = new THREE.LightProbe();
-const fbxLoader = new THREE.FBXLoader();
-const fontLoader = new THREE.FontLoader();
-const CubeTextureLoader = new THREE.CubeTextureLoader();
+const loadingManager = new THREE.LoadingManager();
+const fbxLoader = new THREE.FBXLoader(loadingManager);
+const fontLoader = new THREE.FontLoader(loadingManager);
+const CubeTextureLoader = new THREE.CubeTextureLoader(loadingManager);
 
 var width = window.innerWidth;
 var height = window.innerHeight;
