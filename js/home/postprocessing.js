@@ -31,6 +31,18 @@
 	const dofPass = new POSTPROCESSING.EffectPass(camera, dofEffect);
 	//composer.addPass(dofPass);
 
+// ----- OUTLINE ----- //
+
+	const outlineEffect = new POSTPROCESSING.OutlineEffect(scene, camera, {
+		kernelSize: POSTPROCESSING.KernelSize.SMALL,
+		blur: true,
+		edgeStrength: 1,
+		visibleEdgeColor: 0xff0000,
+		xRay: false
+	});
+	const outlinePass = new POSTPROCESSING.EffectPass(camera, outlineEffect);
+	//composer.addPass(outlinePass);
+
 // ----- BLOOM ----- //
 
 	const bloomEffect = new POSTPROCESSING.BloomEffect({

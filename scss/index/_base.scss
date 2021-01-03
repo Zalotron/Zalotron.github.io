@@ -17,34 +17,6 @@ body {
   z-index: 3;
 }
 
-#social {
-  width: 100%;
-  padding: $padding;
-  font-size: 5rem;
-  display: flex;
-  justify-content: flex-start;
-}
-
-#social a {
-  margin-right: 20px;
-  text-decoration: none;
-  color:white;
-  display: flex;
-  opacity: 0.5;
-}
-
-.fab p {
-  width: 0ch;
-  display: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 3rem;
-  padding-left: 0px;
-  margin: auto;
-  text-decoration: none;
-  color:white;
-  opacity: 1;
-}
-
 #copyright {
   position: fixed;
   bottom: 0;

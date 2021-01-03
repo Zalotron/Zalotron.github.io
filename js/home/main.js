@@ -1,4 +1,4 @@
-function onEnter(event, element) {
+function socialEnter(event, element) {
     gsap.timeline({
         defaults: { duration: 0.5 },
         onStart: () => {
@@ -16,7 +16,7 @@ function onEnter(event, element) {
     }, "start")
 }
 
-function onLeave(event, element) {
+function socialLeave(event, element) {
     gsap.timeline({
         defaults: { duration: 0.5 },
         onComplete: () => {
@@ -57,6 +57,12 @@ sloganLoop()
 // SOCIAL BUTTONS
 let socialButtons = document.getElementById("social").children
 Array.from(socialButtons).forEach(element => {
-    element.addEventListener("mouseenter", (event) => onEnter(event, element))
-    element.addEventListener("mouseleave", (event) => onLeave(event, element))
+    element.addEventListener("mouseenter", (event) => socialEnter(event, element))
+    element.addEventListener("mouseleave", (event) => socialLeave(event, element))
 });
+
+//let menuButtons = document.getElementById("menu").children
+//Array.from(menuButtons).forEach(element => {
+//    element.addEventListener("mouseenter", (event) => socialEnter(event, element))
+//    element.addEventListener("mouseleave", (event) => socialLeave(event, element))
+//});

@@ -310,7 +310,7 @@ class MovingGeometry {
 
 		let mat2 = new THREE.MeshLambertMaterial({
 			color: 0x000000,
-			roughness: 0.9,
+			//roughness: 0.9,
 			emissive: 0xff0000,
 			emissiveIntensity: 0
 		});
@@ -341,7 +341,7 @@ class MovingGeometry {
 	flick() {
 		if (!this.mode) {
 			gsap.to(this.mesh.material, {
-				emissiveIntensity: lerp(Math.random(), 0, 0.1),
+				emissiveIntensity: lerp(Math.random(), 0, 0.05),
 				duration: lerp(Math.random(), 1, 2),
 				onComplete: () => { this.flick() }
 			});
@@ -351,6 +351,7 @@ class MovingGeometry {
 	onEnter() {
 		if (!this.mode) {
 			this.mode = true;
+			//outlineEffect.selectObject(this.mesh);
 			gsap.killTweensOf(this.mesh.position, "z");
 			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
 
@@ -367,6 +368,7 @@ class MovingGeometry {
 
 	onLeave() {
 		if (this.mode) {
+			//outlineEffect.deselectObject(this.mesh);
 			gsap.killTweensOf(this.mesh.position, "z");
 			gsap.killTweensOf(this.mesh.material, "emissiveIntensity");
 
